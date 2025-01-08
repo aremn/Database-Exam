@@ -1,0 +1,16 @@
+<table>
+    <thead>
+        <tr>
+            <th>Enclosure</th>
+            <th>Species Count</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for result in results %}
+        <tr>
+            <td>{{ result[0] }}</td>
+            <td>{{ result[1] }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

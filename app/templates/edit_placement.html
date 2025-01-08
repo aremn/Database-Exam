@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Placement</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f9;
+        }
+        .form-container {
+            width: 400px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        h1 {
+            text-align: center;
+            font-size: 1.8em;
+            color: #5c6b7a;
+            margin-bottom: 20px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        input[type="number"] {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+        .action-buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
+        .action-button {
+            text-decoration: none;
+            padding: 10px 15px;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+        }
+        .action-button.save {
+            background-color: #5c6b7a;
+        }
+        .action-button.save:hover {
+            background-color: #8fb8e4;
+        }
+        .action-button.cancel {
+            background-color: #e74c3c;
+        }
+        .action-button.cancel:hover {
+            background-color: #c0392b;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h1>Edit Placement</h1>
+        <form method="post" action="/placements/edit/{{ placement.id }}">
+            <input type="number" name="species_id" value="{{ placement.species_id }}" placeholder="Species ID" required>
+            <input type="number" name="enclosure_id" value="{{ placement.enclosure_id }}" placeholder="Enclosure ID" required>
+            <input type="number" name="animal_count" value="{{ placement.animal_count }}" placeholder="Animal Count" required>
+            <div class="action-buttons">
+                <button type="submit" class="action-button save">Save</button>
+                <a href="/placements" class="action-button cancel">Cancel</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

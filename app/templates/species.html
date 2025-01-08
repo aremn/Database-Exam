@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Species</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        .pagination {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+        }
+        .pagination a {
+            text-decoration: none;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            color: #333;
+        }
+        .pagination a.active {
+            font-weight: bold;
+            background-color: #ddd;
+        }
+        .pagination-button {
+            text-decoration: none;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            color: #333;
+        }
+        .pagination-button.active {
+            font-weight: bold;
+            background-color: #ddd;
+        }
+        .pagination-dots {
+            padding: 8px 12px;
+            color: #666;
+        }
+        .action-button {
+            text-decoration: none;
+            padding: 10px 15px;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            display: inline-block;
+        }
+        .action-button.edit {
+            background-color: #5c6b7a;
+        }
+        .action-button.edit:hover {
+            background-color: #8fb8e4;
+        }
+        .action-button.delete {
+            background-color: #e74c3c;
+        }
+        .action-button.delete:hover {
+            background-color: #c0392b;
+        }
+        .action-button.filter, a.action-button {
+            background-color: #3498db;
+            border: 1px solid #2980b9;
+        }
+        .action-button.filter:hover, a.action-button:hover {
+            background-color: #2980b9;
+        }
+        .actions-column {
+            width: 1px;
+            white-space: nowrap;
+        }
+        .navigation {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+            gap: 15px; 
+        }
+        .nav-button {
+            text-decoration: none;
+            padding: 10px 20px;
+            color: white;
+            background-color: #5c6b7a;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            font-weight: bold;
+            font-size: 16px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        .nav-button:hover {
+            background-color: #8fb8e4;
+            color: white;
+        }
+        .centered-title {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 2em; 
+            color: #5c6b7a; 
+        }
+        form {
+            margin-top: 20px;
+        }
+        form input[type="text"], form input[type="number"] {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+            margin-right: 10px;
+        }
+        form button {
+            background-color: #5c6b7a;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+        }
+        form button:hover {
+            background-color: #8fb8e4;
+        }
+        .action-button.filter {
+            background-color: #3498db;
+            border: 1px solid #2980b9;
+        }
+
+        .action-button.filter:hover {
+            background-color: #2980b9;
+        }
+
+    </style>
+</head>
+<body>
+    <nav class="navigation">
+        <a href="/species" class="nav-button">Species</a>
+        <a href="/enclosures" class="nav-button">Enclosures</a>
+        <a href="/placements" class="nav-button">Placements</a>
+    </nav>
+
+    <h1 class="centered-title">Species</h1>
+
+    <form method="post" action="/species/add/">
+        <h3>Add Species</h3>
+        <input type="text" name="name" placeholder="Name" required>
+        <input type="text" name="family" placeholder="Family" required>
+        <input type="text" name="habitat" placeholder="Habitat" required>
+        <input type="number" name="lifespan" placeholder="Lifespan" required>
+        <button type="submit" class="action-button edit">Add Species</button>
+    </form>
+
+    <form method="get" action="/species/filter">
+        <input type="text" name="habitat" placeholder="Filter by Habitat">
+        <button type="submit" class="action-button">Filter</button>
+    </form>
+
+    <a href="/species/subquery" class="action-button" style="margin-top: 20px; display: inline-block;">View Species with >50 Animals</a>
+    
+    <a href="/species/full_table" class="action-button" style="margin-top: 20px; display: inline-block;">View Full Table</a>
+
+    <form method="get" action="/species/search/">
+        <input type="text" name="query" placeholder="Search species by description">
+        <button type="submit" class="action-button">Search</button>
+    </form>    
+    
+    <a href="/species/populate-json/" class="action-button" style="margin-top: 20px; display: inline-block;">Populate JSON</a>
+    
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Family</th>
+                <th>Habitat</th>
+                <th>Lifespan</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for species in species_list %}
+            <tr>
+                <td>{{ species.id }}</td>
+                <td>{{ species.name }}</td>
+                <td>{{ species.family }}</td>
+                <td>{{ species.habitat }}</td>
+                <td>{{ species.lifespan }}</td>
+                <td class="actions-column">
+                    <a href="/species/edit/{{ species.id }}" class="action-button edit">Edit</a>
+                    <form method="post" action="/species/delete/{{ species.id }}" style="display: inline;">
+                        <button type="submit" class="action-button delete">Delete</button>
+                    </form>
+                </td>                
+            </tr>   
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="pagination">
+        {% if current_page > 1 %}
+        <a href="/species/?page={{ current_page - 1 }}" class="pagination-button">Previous</a>
+        {% endif %}
+    
+        {% for page in range(1, total_pages + 1) %}
+            {% if page == 1 or page == total_pages or (page >= current_page - 2 and page <= current_page + 2) %}
+                <a href="/species/?page={{ page }}" 
+                   class="pagination-button {% if page == current_page %}active{% endif %}">{{ page }}</a>
+            {% elif page == current_page - 3 or page == current_page + 3 %}
+                <span class="pagination-dots">...</span>
+            {% endif %}
+        {% endfor %}
+    
+        {% if current_page < total_pages %}
+        <a href="/species/?page={{ current_page + 1 }}" class="pagination-button">Next</a>
+        {% endif %}
+    </div>
+</body>
+</html>

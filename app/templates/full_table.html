@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Full Data Table</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        .centered-title {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 2em; 
+            color: #5c6b7a; 
+        }
+    </style>
+</head>
+<body>
+    <h1 class="centered-title">Full Data Table</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Species ID</th>
+                <th>Species Name</th>
+                <th>Family</th>
+                <th>Habitat</th>
+                <th>Lifespan</th>
+                <th>Animal Count</th>
+                <th>Enclosure ID</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in results %}
+            <tr>
+                <td>{{ row.species_id }}</td>
+                <td>{{ row.species_name }}</td>
+                <td>{{ row.family }}</td>
+                <td>{{ row.habitat }}</td>
+                <td>{{ row.lifespan }}</td>
+                <td>{{ row.animal_count }}</td>
+                <td>{{ row.enclosure_id }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
